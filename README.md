@@ -11,10 +11,10 @@
 - **Anti Nofall**
   -防止玩家摔落无伤害
 
-  **Anti Teleport**
+-  **Anti Teleport**
   -防止玩家通过作弊方式进行传送
   
-  **Anti AirJump**
+-  **Anti AirJump**
   - 限制玩家在空中跳跃
 
 - **Anti Reach**
