@@ -15,9 +15,6 @@ end
 getspeedvertical = function(y,y1)
     return y-y1
 end
-getpos = function(pos)
-    return pos[1],pos[2],pos[3] 
-end
 playerenter = function(event)
     local playerid = event.eventobjid
     player[playerid] = {
@@ -32,6 +29,10 @@ playerenter = function(event)
             vertical = 0,--垂直速度
             horizontal = 0--水平速度
         },
+        hit = {
+            tick = 0;--上次被攻击的游戏刻
+            lv = 0;--攻击受到的伤害
+        },--受击相关属性
         jump = {
             height = 0, -- 玩家跳跃高度
             start_pos = {},--开始时的坐标
@@ -87,6 +88,13 @@ local playerclickactor = function(event)
     player[playerid]["playerdistance"] = distance
     return
 end
+local playerbehurt = function (event)
+    local playerid = event.eventobjid
+    local hurtlv = event.hurtlv
+    player[playerid]["hit"]["lv"] = hurtlv
+    player[playerid]["hit"]["tick"] = 0
+    return
+end
 local runtick = function()
     local tick = {}
     tick.playerinair = function(playerid)
@@ -107,9 +115,13 @@ local runtick = function()
         }
         return
     end
+    tick.playerhit = function (playerid)
+        player[playerid]["hit"]["tick"] = player[playerid]["hit"]["tick"] + 1
+        return
+    end
     tick.speed = function(playerid)
-        local x,y,z = getpos(player[playerid]["pos"][1])
-        local x1,y1,z1 = getpos(player[playerid]["pos"][10])
+        local x,y,z = table.unpack(player[playerid]["pos"][1])
+        local x1,y1,z1 = table.unpack(player[playerid]["pos"][10])
         if not x or not x1 then
            return 
         end
@@ -127,7 +139,7 @@ local runtick = function()
                 player[playerid]["jump"]["start_pos"] = {x,y,z}
             elseif player[playerid]["speed"]["vertical"] < 0 and player[playerid]["jump"]["height"] == 0 then
                 local code,x,y,z = Actor:getPosition(playerid)
-                local x1,y1,z1 = getpos(player[playerid]["jump"]["start_pos"])
+                local x1,y1,z1 = table.unpack(player[playerid]["jump"]["start_pos"])
                 local height = getspeedvertical(y,y1)
                 player[playerid]["jump"]["height"] = height
             end
@@ -140,6 +152,7 @@ local runtick = function()
         end
     end
 end
+ScriptSupportEvent:registerEvent("Player.BeHurt",playerenter)
 ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.EnterGame]=],playerenter)
 ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.LeaveGame]=],playerleave)
 ScriptSupportEvent:registerEvent([=[Player.MotionStateChange]=],playermotionstage)

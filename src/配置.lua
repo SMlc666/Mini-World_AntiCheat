@@ -6,5 +6,8 @@ config = {
     },
     longjump = {
         height = 0.3,--玩家极限跳跃高度
+    },
+    airjump = {
+        hittick = 40,--允许的受击间隔
     }
 }
