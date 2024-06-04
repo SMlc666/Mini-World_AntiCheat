@@ -15,7 +15,10 @@ end
 getspeedvertical = function(y,y1)
     return y-y1
 end
-playerenter = function(event)
+getpos = function (pos)
+    return pos[1],pos[2],pos[3]
+end
+local playerenter = function(event)
     local playerid = event.eventobjid
     player[playerid] = {
         lv = 0,--作弊等级
@@ -120,8 +123,8 @@ local runtick = function()
         return
     end
     tick.speed = function(playerid)
-        local x,y,z = table.unpack(player[playerid]["pos"][1])
-        local x1,y1,z1 = table.unpack(player[playerid]["pos"][10])
+        local x,y,z = getpos(player[playerid]["pos"][1])
+        local x1,y1,z1 = getpos(player[playerid]["pos"][10])
         if not x or not x1 then
            return 
         end
@@ -139,7 +142,7 @@ local runtick = function()
                 player[playerid]["jump"]["start_pos"] = {x,y,z}
             elseif player[playerid]["speed"]["vertical"] < 0 and player[playerid]["jump"]["height"] == 0 then
                 local code,x,y,z = Actor:getPosition(playerid)
-                local x1,y1,z1 = table.unpack(player[playerid]["jump"]["start_pos"])
+                local x1,y1,z1 = getpos(player[playerid]["jump"]["start_pos"])
                 local height = getspeedvertical(y,y1)
                 player[playerid]["jump"]["height"] = height
             end

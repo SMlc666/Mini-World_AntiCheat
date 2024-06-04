@@ -45,7 +45,7 @@ local runtick = function()
     end
     tick.checklongjump = function (playerid)
         if player[playerid]["jump"]["height"] > config.longjump.height + math.random(0,10) * 0.01 then
-            local x,y,z = table.unpack(player[playerid]["pos"][1])
+            local x,y,z = getpos(player[playerid]["pos"][1])
             local code,length = World:getRayLength(x,y,z,x,y-player[playerid]["jump"]["height"]*100,z,player[playerid]["jump"]["height"]*100)
             Player:setPosition(playerid,x,y-length+1.5,z)
             lv.add(playerid,player[playerid]["jump"]["height"]*10)
