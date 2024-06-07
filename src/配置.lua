@@ -10,6 +10,7 @@ config = {
     },--实体长臂猿检测
     fly = {
         status =true,--是否开启飞行检测
+        hittick = 40,--允许的受击间隔
         onlyinair = true,--只在空中时进行检测
         inairtick = 40,--允许的空中持续时间
     },--飞行检测

@@ -14,26 +14,28 @@ local runtick = function()
     local tick = {}
     tick.checkfly = function(playerid)
         if config.fly.status then
-            --print(player)
-            --print(player[playerid]["speed"]["vertical"])
-            if player[playerid]["air"]["isinair"] or config.fly.onlyinair then
-                if player[playerid]["air"]["tick"] >= config.fly.airtick then
-                    if player[playerid]["movesize"] > 0 then
-                        --Player:changPlayerMoveType(playerid,2)
-                        lv.add(playerid,1,"fly")
-                    end
-                    if player[playerid]["speed"]["vertical"] == 0 then
-                        if player[playerid]["horizontal"] ~= 0 then
+            if player[playerid]["hit"]["tick"] >= config.fly.hittick then
+                --print(player)
+                --print(player[playerid]["speed"]["vertical"])
+                if player[playerid]["air"]["isinair"] or config.fly.onlyinair then
+                    if player[playerid]["air"]["tick"] >= config.fly.airtick then
+                        if player[playerid]["movesize"] > 0 then
                             --Player:changPlayerMoveType(playerid,2)
-                            lv.add(playerid,1,"fly1")
+                            lv.add(playerid,1,"fly")
+                        end
+                        if player[playerid]["speed"]["vertical"] == 0 then
+                            if player[playerid]["horizontal"] ~= 0 then
+                                --Player:changPlayerMoveType(playerid,2)
+                                lv.add(playerid,1,"fly1")
+                            end
                         end
                     end
                 end
+                --[[
+                if player[playerid]["speed"]["vertical"] > 0 then
+                print(player[playerid]["motion"])
+                end]]
             end
-            --[[
-            if player[playerid]["speed"]["vertical"] > 0 then
-            print(player[playerid]["motion"])
-            end]]
         end
         return
     end
