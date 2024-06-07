@@ -38,15 +38,17 @@ local runtick = function()
         return
     end
     tick.checkairjump = function(playerid)
-        if player[playerid]["air"]["isinair"] or player[playerid]["air"]["isinair"] == config.airjump.onlyinair then
-            if player[playerid]["air"]["tick"] >= config.airjump.airtick then
-                if (function () if player[playerid]["jump"]["height"] and player[playerid]["jump"]["height"] > 0 then return true else return false end end)()  then
-                    if player[playerid]["speed"]["vertical"] > 0 then
-                        if player[playerid]["hit"]["tick"] > config.airjump.hittick then
-                            local x,y,z = getpos(player[playerid]["pos"][1])
-                            local distance = getspeedvertical(y,player[playerid]["jump"]["start_pos"][2])
-                            if distance - player[playerid]["jump"]["height"] >= config.airjump.height  then
-                                lv.add(playerid,1,"airjump")
+        if config.airjump.status then
+            if player[playerid]["air"]["isinair"] or player[playerid]["air"]["isinair"] == config.airjump.onlyinair then
+                if player[playerid]["air"]["tick"] >= config.airjump.airtick then
+                    if (function () if player[playerid]["jump"]["height"] and player[playerid]["jump"]["height"] > 0 then return true else return false end end)()  then
+                        if player[playerid]["speed"]["vertical"] > 0 then
+                            if player[playerid]["hit"]["tick"] > config.airjump.hittick then
+                                local x,y,z = getpos(player[playerid]["pos"][1])
+                                local distance = getspeedvertical(y,player[playerid]["jump"]["start_pos"][2])
+                                if distance - player[playerid]["jump"]["height"] >= config.airjump.height  then
+                                    lv.add(playerid,1,"airjump")
+                                end
                             end
                         end
                     end
