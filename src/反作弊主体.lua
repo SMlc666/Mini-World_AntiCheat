@@ -19,6 +19,9 @@ local runtick = function()
     local tick = {}
     tick.checkfly = function(playerid)
         if config.fly.status then
+            for i,v in pairs(config.fly.buffwhite) do
+                
+            end
             if player[playerid]["hit"]["tick"] >= config.fly.hittick then
                 --print(player)
                 --print(player[playerid]["speed"]["vertical"])
@@ -26,6 +29,7 @@ local runtick = function()
                     if (function () if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] > config.fly.inairtick then return true else return false end end)() then
                         if player[playerid]["speed"]["vertical"] > config.fly.verticle then
                             if player[playerid]["movesize"] > 0 then
+                                print(player[playerid]["hit"]["tick"])
                                 lv.add(playerid,1,"fly")
                             end
                         end
@@ -46,6 +50,7 @@ local runtick = function()
                     if (function () if player[playerid]["jump"]["height"] and player[playerid]["jump"]["height"] > 0 then return true else return false end end)()  then
                         if player[playerid]["speed"]["vertical"] > 0 then
                             if player[playerid]["hit"]["tick"] > config.airjump.hittick then
+                                print(player[playerid]["hit"]["tick"])
                                 local x,y,z = getpos(player[playerid]["pos"][1])
                                 local distance = getspeedvertical(y,player[playerid]["jump"]["start_pos"][2])
                                 if distance - player[playerid]["jump"]["height"] >= config.airjump.height  then

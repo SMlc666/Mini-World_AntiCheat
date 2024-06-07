@@ -11,6 +11,9 @@ local playerenter = function(event)
             isinair = false,--是否在空中
             tick = 0,--在空中的tick
         },
+        buff = {
+
+        },--玩家的buff列表
         motion = 0, --玩家行动状态
         blockdistance = 0,--玩家与挖掘方块的距离
         playerdistance = 0,--玩家与攻击对象的距离
@@ -85,6 +88,20 @@ local playerbehurt = function (event)
     player[playerid]["hit"]["tick"] = 0
     return
 end
+local playeraddbuff = function (event)
+    local playerid = event.eventobjid
+    local buffid = event.buffid
+    local bufflv = event.bufflv
+    player[playerid]["buff"][buffid] = {
+        bufflv = bufflv,
+    }
+    return
+end
+local playerremovebuff = function (event)
+    local playerid = event.eventobjid
+    player[playerid]["buff"][buffid] = nil
+    return
+end
 local runtick = function()
     local tick = {}
     tick.playerpos = function(playerid)
@@ -156,11 +173,13 @@ local runtick = function()
         end
     end
 end
-ScriptSupportEvent:registerEvent("Player.BeHurt",playerenter)
-ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.EnterGame]=],playerbehurt)
+ScriptSupportEvent:registerEvent("Player.BeHurt",playerbehurt)
+ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.EnterGame]=],playerenter)
 ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.LeaveGame]=],playerleave)
 ScriptSupportEvent:registerEvent([=[Player.MotionStateChange]=],playermotionstage)
 ScriptSupportEvent:registerEvent([=[Player.AttackHit]=],playerclickactor)
 ScriptSupportEvent:registerEvent([=[Player.ClickBlock]=],playerclickblock)
 ScriptSupportEvent:registerEvent([=[Player.MoveOneBlockSize]=],playermove)
+ScriptSupportEvent:registerEvent("Player.AddBuff",playeraddbuff)
+ScriptSupportEvent:registerEvent("Player.RemoveBuff",playerremovebuff)
 ScriptSupportEvent:registerEvent("Game.RunTime",runtick)

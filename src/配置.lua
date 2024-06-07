@@ -14,6 +14,10 @@ config = {
         onlyinair = true,--只在空中时进行检测
         verticle = 0,--垂直速度检测阈值
         inairtick = 40,--允许的空中持续时间
+        buffwhite = {
+            [1] = 42001,
+            [2] = 42002,
+        }--buff白名单
     },--飞行检测
     highjump = {
         status = true,--是否开启长跳检测
@@ -25,6 +29,10 @@ config = {
         height = 0.1,--允许的两次跳跃之间的距离
         oninair = true,--只在空中时进行检测
         inairtick = 40,--允许的空中持续时间
+        buffwhite = {
+            [1] = 42001,
+            [2] = 42002,
+        }--buff白名单
     },--空中跳跃检测
     whitelist = {
         [1] = 11451410086,--迷你号11451410086的人不受检测
