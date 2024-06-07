@@ -10,8 +10,9 @@ config = {
     },--实体长臂猿检测
     fly = {
         status =true,--是否开启飞行检测
-        hittick = 40,--允许的受击间隔
+        hittick = 50,--允许的受击间隔
         onlyinair = true,--只在空中时进行检测
+        verticle = 0,--垂直速度检测阈值
         inairtick = 40,--允许的空中持续时间
     },--飞行检测
     highjump = {
@@ -20,7 +21,12 @@ config = {
     },--跳高检测
     airjump = {
         status = true,--是否开启空中跳跃检测
-        hittick = 40,--允许的受击间隔
-        height = 0.1--允许的两次跳跃之间的距离
+        hittick = 50,--允许的受击间隔
+        height = 0.1,--允许的两次跳跃之间的距离
+        oninair = true,--只在空中时进行检测
+        inairtick = 40,--允许的空中持续时间
     },--空中跳跃检测
+    whitelist = {
+        [1] = 11451410086,--迷你号11451410086的人不受检测
+    }--可以不受到反作弊检测的玩家列表
 }

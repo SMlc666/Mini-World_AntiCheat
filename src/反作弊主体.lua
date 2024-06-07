@@ -1,6 +1,11 @@
 local lv = {}--对lv进行操作的库
 lv.add = function(playerid,lv,message)
     --print(playerid,lv)
+    for i,v in pairs(config.whitelist) do--白名单
+        if v == playerid then
+            return
+        end
+    end
     player[playerid]["ban"]["lv"] = player[playerid]["ban"]["lv"] + lv
     player[playerid]["ban"]["message"] = message
     print(message,player[playerid]["motion"])
@@ -18,15 +23,10 @@ local runtick = function()
                 --print(player)
                 --print(player[playerid]["speed"]["vertical"])
                 if player[playerid]["air"]["isinair"] or config.fly.onlyinair then
-                    if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] >= config.fly.airtick then
-                        if player[playerid]["movesize"] > 0 then
-                            --Player:changPlayerMoveType(playerid,2)
-                            lv.add(playerid,1,"fly")
-                        end
-                        if player[playerid]["speed"]["vertical"] == 0 then
-                            if player[playerid]["horizontal"] ~= 0 then
-                                --Player:changPlayerMoveType(playerid,2)
-                                lv.add(playerid,1,"fly1")
+                    if (function () if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] > config.fly.inairtick then return true else return false end end)() then
+                        if player[playerid]["speed"]["vertical"] > config.fly.verticle then
+                            if player[playerid]["movesize"] > 0 then
+                                lv.add(playerid,1,"fly")
                             end
                         end
                     end
@@ -42,7 +42,7 @@ local runtick = function()
     tick.checkairjump = function(playerid)
         if config.airjump.status then
             if player[playerid]["air"]["isinair"] or player[playerid]["air"]["isinair"] == config.airjump.onlyinair then
-                if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] >= config.airjump.airtick then
+                if (function () if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] > config.airjump.inairtick then return true else return false end end)() then
                     if (function () if player[playerid]["jump"]["height"] and player[playerid]["jump"]["height"] > 0 then return true else return false end end)()  then
                         if player[playerid]["speed"]["vertical"] > 0 then
                             if player[playerid]["hit"]["tick"] > config.airjump.hittick then
@@ -62,9 +62,6 @@ local runtick = function()
     tick.checkhighjump = function (playerid)
         if config.highjump.status then
             if player[playerid]["jump"]["height"] > config.highjump.height + math.random(0,10) * 0.01 then
-                local x,y,z = getpos(player[playerid]["pos"][1])
-                local code,length = World:getRayLength(x,y,z,x,y-player[playerid]["jump"]["height"]*100,z,player[playerid]["jump"]["height"]*100)
-                Player:setPosition(playerid,x,y-length+1.5,z)
                 lv.add(playerid,player[playerid]["jump"]["height"]*10,"highjump")
             end
         end

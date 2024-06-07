@@ -157,7 +157,7 @@ local runtick = function()
     end
 end
 ScriptSupportEvent:registerEvent("Player.BeHurt",playerenter)
-ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.EnterGame]=],playerenter)
+ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.EnterGame]=],playerbehurt)
 ScriptSupportEvent:registerEvent([=[Game.AnyPlayer.LeaveGame]=],playerleave)
 ScriptSupportEvent:registerEvent([=[Player.MotionStateChange]=],playermotionstage)
 ScriptSupportEvent:registerEvent([=[Player.AttackHit]=],playerclickactor)
