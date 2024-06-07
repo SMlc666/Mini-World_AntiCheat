@@ -18,7 +18,7 @@ local runtick = function()
                 --print(player)
                 --print(player[playerid]["speed"]["vertical"])
                 if player[playerid]["air"]["isinair"] or config.fly.onlyinair then
-                    if player[playerid]["air"]["tick"] >= config.fly.airtick then
+                    if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] >= config.fly.airtick then
                         if player[playerid]["movesize"] > 0 then
                             --Player:changPlayerMoveType(playerid,2)
                             lv.add(playerid,1,"fly")
@@ -42,7 +42,7 @@ local runtick = function()
     tick.checkairjump = function(playerid)
         if config.airjump.status then
             if player[playerid]["air"]["isinair"] or player[playerid]["air"]["isinair"] == config.airjump.onlyinair then
-                if player[playerid]["air"]["tick"] >= config.airjump.airtick then
+                if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] >= config.airjump.airtick then
                     if (function () if player[playerid]["jump"]["height"] and player[playerid]["jump"]["height"] > 0 then return true else return false end end)()  then
                         if player[playerid]["speed"]["vertical"] > 0 then
                             if player[playerid]["hit"]["tick"] > config.airjump.hittick then
