@@ -1,29 +1,16 @@
 player = {}
-getdistance = function(target,target1)--计算距离函数
-    local x,y,z = target[1],target[2],target[3]
-    local x1,y1,z1 = target1[1],target1[2],target1[3]
-    local distance = math.sqrt((x-x1)^2+(y-y1)^2+(z-z1)^2)
-    return distance
-end
-getspeedhorizontal = function(target,target1)--计算水平距离及速度的函数
-    local x = target[1]
-    local x1 = target1[1]
-    local z = target[2]
-    local z1 = target[2]
-    return math.sqrt((x-x1)^2+(z-z1)^2)
-end
-getspeedvertical = function(y,y1)
-    return y-y1
-end
-getpos = function (pos)
-    return pos[1],pos[2],pos[3]
-end
 local playerenter = function(event)
     local playerid = event.eventobjid
     player[playerid] = {
-        lv = 0,--作弊等级
+        ban = {
+            lv = 0,--作弊等级
+            message = "",--作弊信息
+        },
         movesize = 0,--移动方块的数量
-        isinair = false,--是否在空中
+        air = {
+            isinair = false,--是否在空中
+            tick = 0,--在空中的tick
+        },
         motion = 0, --玩家行动状态
         blockdistance = 0,--玩家与挖掘方块的距离
         playerdistance = 0,--玩家与攻击对象的距离
@@ -54,7 +41,7 @@ end
 local playermotionstage = function(event)
     local playerid = event.eventobjid
     local playermotion = event.playermotion
-    if playermotion == 0 then
+    if playermotion == 0 or playermotion == 32 or playermotion == 4 or playermotion == 8 then
         player[playerid]["movesize"] = 0
     elseif playermotion == 32 then
         player[playerid]["jump"]["height"] = 0
@@ -100,11 +87,6 @@ local playerbehurt = function (event)
 end
 local runtick = function()
     local tick = {}
-    tick.playerinair = function(playerid)
-        local isinair = Actor:isInAir(playerid)
-        player[playerid]["isinair"] = isinair == 0
-        return
-    end
     tick.playerpos = function(playerid)
         local code,x,y,z = Actor:getPosition(playerid)
         --print(x,y,z)
@@ -116,6 +98,25 @@ local runtick = function()
             y,
             z,
         }
+        return
+    end
+    tick.playerinair = function(playerid)
+        local x,y,z = (function()
+            if player[playerid]["pos"][1]["x"] then
+                return getpos(player[playerid]["pos"][1])
+                else
+                local code,x,y,z = Actor:getPosition(playerid)
+                return x,y,z
+            end
+        end)()
+        local result = Block:isAirBlock(x,y-0.1,z)
+        local isinair = result == 0
+        player[playerid]["air"]["isinair"] = isinair
+        if isinair then
+            player[playerid]["air"]["tick"] = player[playerid]["air"]["tick"] + 1
+        else
+            player[playerid]["air"]["tick"] = 0
+        end
         return
     end
     tick.playerhit = function (playerid)
