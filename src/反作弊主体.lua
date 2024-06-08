@@ -19,7 +19,7 @@ local runtick = function()
     local tick = {}
     tick.checkfly = function(playerid)
         if config.fly.status then
-            for i,v in pairs(player.buff) do
+            for i,v in pairs(player[playerid]["buff"]) do
                 for i1,v1 in pairs(config.fly.buffwhite) do
                     if i == v1 then
                         return
@@ -27,11 +27,9 @@ local runtick = function()
                 end
             end
             if player[playerid]["hit"]["tick"] >= config.fly.hittick then
-                --print(player)
-                --print(player[playerid]["speed"]["vertical"])
                 if player[playerid]["air"]["isinair"] or config.fly.onlyinair then
                     if (function () if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] > config.fly.inairtick then return true else return false end end)() then
-                        if player[playerid]["speed"]["vertical"] > config.fly.verticle then
+                        if player[playerid]["speed"]["vertical"] >= config.fly.verticle then
                             if player[playerid]["movesize"] > 0 then
                                 print(player[playerid]["hit"]["tick"])
                                 lv.add(playerid,1,"fly")
@@ -39,17 +37,13 @@ local runtick = function()
                         end
                     end
                 end
-                --[[
-                if player[playerid]["speed"]["vertical"] > 0 then
-                print(player[playerid]["motion"])
-                end]]
             end
         end
         return
     end
     tick.checkairjump = function(playerid)
         if config.airjump.status then
-            for i,v in pairs(player.buff) do
+            for i,v in pairs(player[playerid]["buff"]) do
                 for i1,v1 in pairs(config.airjump.buffwhite) do
                     if i == v1 then
                         return
@@ -77,7 +71,7 @@ local runtick = function()
     end
     tick.checkhighjump = function (playerid)
         if config.highjump.status then
-            for i,v in pairs(player.buff) do
+            for i,v in pairs(player[playerid]["buff"]) do
                 for i1,v1 in pairs(config.highjump.buffwhite) do
                     if i == v1 then
                         return
