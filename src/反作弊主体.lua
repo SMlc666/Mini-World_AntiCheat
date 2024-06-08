@@ -19,8 +19,12 @@ local runtick = function()
     local tick = {}
     tick.checkfly = function(playerid)
         if config.fly.status then
-            for i,v in pairs(config.fly.buffwhite) do
-                
+            for i,v in pairs(player.buff) do
+                for i1,v1 in pairs(config.fly.buffwhite) do
+                    if i == v1 then
+                        return
+                    end
+                end
             end
             if player[playerid]["hit"]["tick"] >= config.fly.hittick then
                 --print(player)
@@ -45,6 +49,13 @@ local runtick = function()
     end
     tick.checkairjump = function(playerid)
         if config.airjump.status then
+            for i,v in pairs(player.buff) do
+                for i1,v1 in pairs(config.airjump.buffwhite) do
+                    if i == v1 then
+                        return
+                    end
+                end
+            end
             if player[playerid]["air"]["isinair"] or player[playerid]["air"]["isinair"] == config.airjump.onlyinair then
                 if (function () if player[playerid]["air"]["tick"] and player[playerid]["air"]["tick"] > config.airjump.inairtick then return true else return false end end)() then
                     if (function () if player[playerid]["jump"]["height"] and player[playerid]["jump"]["height"] > 0 then return true else return false end end)()  then
@@ -66,6 +77,13 @@ local runtick = function()
     end
     tick.checkhighjump = function (playerid)
         if config.highjump.status then
+            for i,v in pairs(player.buff) do
+                for i1,v1 in pairs(config.highjump.buffwhite) do
+                    if i == v1 then
+                        return
+                    end
+                end
+            end
             if player[playerid]["jump"]["height"] > config.highjump.height + math.random(0,10) * 0.01 then
                 lv.add(playerid,player[playerid]["jump"]["height"]*10,"highjump")
             end
@@ -98,7 +116,7 @@ local runtick = function()
     end
     for playerid,value in pairs(player) do
         for index,func in pairs(tick) do
-           func(playerid) 
+           func(playerid)
         end
     end
 end

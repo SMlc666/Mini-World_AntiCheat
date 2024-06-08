@@ -17,11 +17,17 @@ config = {
         buffwhite = {
             [1] = 42001,
             [2] = 42002,
+            [3] = 42003
         }--buff白名单
     },--飞行检测
     highjump = {
         status = true,--是否开启长跳检测
         height = 0.3,--玩家极限跳跃高度
+        buffwhite = {
+            [1] = 42001,
+            [2] = 42002,
+            [3] = 42003
+        }--buff白名单
     },--跳高检测
     airjump = {
         status = true,--是否开启空中跳跃检测
@@ -32,6 +38,7 @@ config = {
         buffwhite = {
             [1] = 42001,
             [2] = 42002,
+            [3] = 42003
         }--buff白名单
     },--空中跳跃检测
     whitelist = {

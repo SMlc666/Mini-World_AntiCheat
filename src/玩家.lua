@@ -37,7 +37,7 @@ local playerenter = function(event)
     return print(playerid.." enter game")
 end
 local playerleave = function(event)
-    local playerid = eventobjid
+    local playerid = event.eventobjid
     player[playerid] = nil
     return print(playerid.." leave game")
 end
@@ -90,8 +90,8 @@ local playerbehurt = function (event)
 end
 local playeraddbuff = function (event)
     local playerid = event.eventobjid
-    local buffid = event.buffid
-    local bufflv = event.bufflv
+    local buffid = event.buff
+    local bufflv = event.bufflvl
     player[playerid]["buff"][buffid] = {
         bufflv = bufflv,
     }
@@ -99,6 +99,7 @@ local playeraddbuff = function (event)
 end
 local playerremovebuff = function (event)
     local playerid = event.eventobjid
+    local buffid = event.buff
     player[playerid]["buff"][buffid] = nil
     return
 end
